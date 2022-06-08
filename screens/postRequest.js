@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, ToastAndroid } from 'react-native';
 
 
 class PostRequest extends React.Component {
@@ -27,31 +27,38 @@ class PostRequest extends React.Component {
         'Content-Type': 'application/json'
       })
     }).then(res => res.json())
-    .catch(error => console.error('Error:', error))
-    .then(json => console.log('Success:', json))
+
+    ToastAndroid.show("Record Added ...", ToastAndroid.SHORT);
+
+    this.textInputId.clear()
+    this.textInputName.clear()
+    this.textInputScore.clear()
 
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>PostRequest Screen</Text>
-        <Text style={styles.para}>POST record (id, name, score) to sheet</Text>
+        <Text style={styles.title}>Demo Add Record</Text>
+        <Text style={styles.para}>Enter id, name, score of user and press on submit button</Text>
 
         <TextInput
           placeholder="enter id"
           onChangeText={(text) => {this.setState({ id: text})}}
-          style={{ borderWidth: 2, borderColor: 'skyblue', margin: 20}}
+          style= {styles.input}
+          ref={input => { this.textInputId = input }}
         />
         <TextInput
           placeholder="enter name"
           onChangeText={(text) => {this.setState({ name: text})}}
-          style={{ borderWidth: 2, borderColor: 'skyblue', margin: 20}}
+          style={styles.input}
+          ref={input => { this.textInputName = input }}
         />
         <TextInput
           placeholder="enter score"
           onChangeText={(text) => {this.setState({ score: text})}}
-          style={{ borderWidth: 2, borderColor: 'skyblue', margin: 20}}
+          style={styles.input}
+          ref={input => { this.textInputScore = input }}
         />
         <Button title="submit" onPress={()=>{this.submit()}}/>
       </View>
@@ -68,19 +75,20 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 16,
     paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: "#20232a",
-    borderRadius: 6,
-    backgroundColor: "#61dafb",
-    color: "#20232a",
     textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold"
+    fontSize: 24
   },
   para: {
     marginTop: 16,
     paddingVertical: 8,
     color: "#20232a",
     fontSize: 16
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 10,
   }
 });

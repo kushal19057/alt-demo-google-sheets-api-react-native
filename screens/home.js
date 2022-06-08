@@ -13,12 +13,11 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home Screen</Text>
-      <Text style={styles.body}>Test out Google Sheets API Demo using 2 routes : </Text>
-      <Text style={styles.para}>1. GET record from sheet by id</Text>
-      <Button title='go to GET API demo' onPress={pressHandlerGetRequest} />
-      <Text style={styles.para}>2. POST record (id, name, score) to sheet</Text>
-      <Button title='go to POST API demo' onPress={pressHandlerPostRequest} />
+      <Text style={styles.title}>Google Sheets API Demo App</Text>
+      <Text style={styles.para}>1. Get a record from sheet </Text>
+      <Button title='try it out' onPress={pressHandlerGetRequest} />
+      <Text style={styles.para}>2. Add a record to sheet</Text>
+      <Button title='try it out' onPress={pressHandlerPostRequest} />
     </View>
   )
 }
@@ -30,21 +29,8 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 16,
     paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: "#20232a",
-    borderRadius: 6,
-    backgroundColor: "#61dafb",
-    color: "#20232a",
     textAlign: "center",
-    fontSize: 30
-  },
-  body: {
-    marginTop: 16,
-    paddingVertical: 8,
-    color: "#20232a",
-    textAlign: "center",
-    fontSize: 20,
-    fontWeight: "bold"
+    fontSize: 24
   },
   para: {
     marginTop: 16,

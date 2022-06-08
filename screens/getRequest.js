@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Text, TextInput, Button, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, FlatList, TouchableOpacity, ToastAndroid } from 'react-native';
 
 
 class GetRequest extends React.Component {
@@ -21,34 +21,33 @@ class GetRequest extends React.Component {
         isLoading: false,
         data: responseJson["data"]
       });
-      console.log(responseJson)
     })
+    ToastAndroid.show("Fetching Records ...", ToastAndroid.SHORT);
   }
 
   render() {
     if (this.state.isLoading) {
       return (
         <View style={styles.container}>
-          <Text style={styles.title}>GetRequest Screen</Text>
-          <Text style={styles.para}>GET record from sheet by id</Text>
-
+          <Text style={styles.title}>Demo Get Record</Text>
+          <Text style={styles.para}>Enter ID of record in input box and press on submit button.</Text>
           <TextInput
-            placeholder="enter id"
+            style= {styles.input}
             onChangeText={(text) => {this.setState({ id: text})}}
-            style={{ borderWidth: 2, borderColor: 'skyblue', margin: 20}}
+            placeholder="enter id"
           />
           <Button title="submit" onPress={()=>{this.submit()}}/>
         </View>
       )
     } else {
       return (
-      <View style={styles.outputContainer}>
+      <View style={styles.container}>
         <FlatList
           data={this.state.data}
           keyExtractor={(x, i) => i}
           renderItem={({ item }) =>
-            <Text>
-              {`${item.id} ${item.name} ${item.score}`}
+            <Text style={styles.output}>
+              {`Id: ${item.id}\nName: ${item.name}\nScore: ${item.score}`}
             </Text>}
         />
       </View>
@@ -64,29 +63,31 @@ const styles = StyleSheet.create({
   container: {
     padding: 24
   },
-  outputContainer: {
-    marginTop: 15,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  },
   title: {
     marginTop: 16,
     paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: "#20232a",
-    borderRadius: 6,
-    backgroundColor: "#61dafb",
-    color: "#20232a",
     textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold"
+    fontSize: 24
   },
   para: {
     marginTop: 16,
     paddingVertical: 8,
     color: "#20232a",
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
+  output: {
+    marginTop: 16,
+    paddingVertical: 8,
+    color: "#20232a",
+    fontSize: 16,
+    backgroundColor: "aliceblue",
+    padding: 10
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 10,
+  },
 });
