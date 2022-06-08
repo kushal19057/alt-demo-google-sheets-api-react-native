@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, FlatList, TouchableOpacity } from 'react-native';
 
 
 class GetRequest extends React.Component {
@@ -7,38 +7,54 @@ class GetRequest extends React.Component {
     super();
     this.state={
       id:'0',
+      isLoading: true,
+      data: []
     }
   }
 
   submit() {
-
-    var url = 'https://9hvbm2.deta.dev/api/v1/get/' + this.state.id
-
-    fetch(url, {
-      method: 'GET',
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
-    }).then(res => res.json())
-    .catch(error => console.error('Error:', error))
-    .then(json => console.log('Success:', json))
-
+    var url = 'https://9hvbm2.deta.dev/api/v1/get/' + this.state.id;
+    fetch(url)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        isLoading: false,
+        data: responseJson["data"]
+      });
+      console.log(responseJson)
+    })
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>GetRequest Screen</Text>
-        <Text style={styles.para}>GET record from sheet by id</Text>
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.title}>GetRequest Screen</Text>
+          <Text style={styles.para}>GET record from sheet by id</Text>
 
-        <TextInput
-          placeholder="enter id"
-          onChangeText={(text) => {this.setState({ id: text})}}
-          style={{ borderWidth: 2, borderColor: 'skyblue', margin: 20}}
+          <TextInput
+            placeholder="enter id"
+            onChangeText={(text) => {this.setState({ id: text})}}
+            style={{ borderWidth: 2, borderColor: 'skyblue', margin: 20}}
+          />
+          <Button title="submit" onPress={()=>{this.submit()}}/>
+        </View>
+      )
+    } else {
+      return (
+      <View style={styles.outputContainer}>
+        <FlatList
+          data={this.state.data}
+          keyExtractor={(x, i) => i}
+          renderItem={({ item }) =>
+            <Text>
+              {`${item.id} ${item.name} ${item.score}`}
+            </Text>}
         />
-        <Button title="submit" onPress={()=>{this.submit()}}/>
       </View>
-    )
+    );
+    }
+
   }
 }
 
@@ -47,6 +63,13 @@ export default GetRequest
 const styles = StyleSheet.create({
   container: {
     padding: 24
+  },
+  outputContainer: {
+    marginTop: 15,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
   },
   title: {
     marginTop: 16,
