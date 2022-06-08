@@ -1,4 +1,6 @@
 # alt-demo-google-sheets-api-react-native
+- Name : Kushal Juneja
+- Roll Number : 2019057
 - Demo app prepared using react native to show interaction with google sheets api.
 - [Unlisted youtube link to demo video](https://youtu.be/69mlr0Ejjl8)
 ## About the app
